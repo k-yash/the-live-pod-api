@@ -13,12 +13,10 @@
     "@meanie/mongoose-to-json": "^2.5.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mongoose": "^5.12.10"
+    "mongoose": "^5.12.10",
+    "dotenv": "^10.0.0"
   },
   "engines": {
     "node": "12.18.2"
-  },
-  "devDependencies": {
-    "dotenv": "^10.0.0"
   }
 }
