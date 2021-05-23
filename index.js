@@ -7,6 +7,8 @@ const {initializeDBConnection} = require('./db/db.connect');
 const {errorHandler} = require('./handler/errorHandler');
 const {routeHandler} = require('./handler/routeHandler');
 
+const videos = require('./routes/video.router');
+
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -17,8 +19,10 @@ initializeDBConnection();
 
 
 app.get("/", (req,res)=>{
-    res.send("Hello World!");
+    res.send("Hello Express app!");
 })
+
+app.use('/videos', videos);
 
 
 
