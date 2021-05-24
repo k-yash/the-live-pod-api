@@ -10,6 +10,7 @@ const {routeHandler} = require('./handler/routeHandler');
 const videos = require('./routes/video.router');
 const login = require("./routes/login.router");
 const signup = require("./routes/signup.router");
+const likedVideos = require('./routes/likedVideos.router');
 
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
@@ -27,6 +28,7 @@ app.get("/", (req,res)=>{
 app.use('/videos', videos);
 app.use('/login',login);
 app.use('/signup', signup);
+app.use('/likedvideos', likedVideos);
 
 
 
