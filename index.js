@@ -13,6 +13,7 @@ const signup = require("./routes/signup.router");
 const likedVideos = require('./routes/likedVideos.router');
 const history = require('./routes/history.router');
 const savedVideos = require('./routes/savedVideo.router');
+const playlist = require('./routes/playlist.router');
 
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
@@ -33,6 +34,7 @@ app.use('/signup', signup);
 app.use('/likedvideos', likedVideos);
 app.use('/history', history);
 app.use('/savedvideos', savedVideos);
+app.use("/playlist", playlist);
 
 
 
