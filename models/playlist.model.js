@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+mongoose.plugin(require('@meanie/mongoose-to-json'));
 const {Schema} = require('mongoose');
 
 const PlaylistNameSchema = new mongoose.Schema({

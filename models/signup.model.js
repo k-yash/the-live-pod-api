@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-// mongoose.plugin(require('meanie-mongoose-to-json'));
+mongoose.plugin(require('@meanie/mongoose-to-json'));
 require('mongoose-type-email');
 const SignupSchema = new mongoose.Schema({
   name:{
