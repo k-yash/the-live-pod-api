@@ -50,6 +50,7 @@ router.route('/:userId')
         let {playlist} = req;
         playlist.playlists.push({title:playlistName, videos:[{video:videoId}]});
         playlist = await playlist.save();
+        playlist = await playlist.populate('playlists.videos.video').execPopulate();
         res.json({success:true, response: playlist});
    }catch{
        res.status(500).json({success:false, message:"error in adding to likedVideos"});
