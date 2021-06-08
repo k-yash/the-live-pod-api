@@ -148,7 +148,7 @@ router.route('/:userId/:playlistId/:videoId')
 
         playlist.playlists.map((el) => {
 			if (String(el._id) === String(playlistId)) {
-				return (el.videos = el.videos.filter((vid) => String(vid.videoId) !== String(videoId)));
+				return (el.videos = el.videos.filter((vid) => String(vid.video) !== String(videoId)));
 			}
 			return el;
 		});
