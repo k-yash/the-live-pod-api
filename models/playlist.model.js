@@ -3,7 +3,7 @@ mongoose.plugin(require('@meanie/mongoose-to-json'));
 const {Schema} = require('mongoose');
 
 const PlaylistNameSchema = new mongoose.Schema({
-    name:{
+    title:{
         type:String,
         required: "Name if playlist is required"
     },

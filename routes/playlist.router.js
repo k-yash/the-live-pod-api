@@ -17,7 +17,7 @@ router.param("userId", async(req, res, next, userId)=>{
         let playlist = await Playlist.findById(userId);
 
         if(!playlist){
-            const NewPlaylist = new Playlist({_id:userId, playlists:[{name:"watch-later"}]});
+            const NewPlaylist = new Playlist({_id:userId, playlists:[{title:"Watch later"}]});
             playlist = await NewPlaylist.save();
         }
     
@@ -48,7 +48,7 @@ router.route('/:userId')
     try{
         const {videoId, playlistName} = req.body;
         let {playlist} = req;
-        playlist.playlists.push({name:playlistName, videos:[{video:videoId}]});
+        playlist.playlists.push({title:playlistName, videos:[{video:videoId}]});
         playlist = await playlist.save();
         res.json({success:true, response: playlist});
    }catch{
@@ -109,7 +109,7 @@ router.route('/:userId/:playlistId/name')
         const {newPlaylistName} = req.body;
         const {playlistId} = req.params;
         let {playlist} = req;
-        playlist.playlists.map((list)=> list._id == playlistId ? list.name = newPlaylistName : list);
+        playlist.playlists.map((list)=> list._id == playlistId ? list.title = newPlaylistName : list);
         playlist = await playlist.save();
         res.json({success:true, response : playlist});
 
@@ -148,7 +148,7 @@ router.route('/:userId/:playlistId/:videoId')
 
         playlist.playlists.map((el) => {
 			if (String(el._id) === String(playlistId)) {
-				return (el.videos = el.videos.filter((vid) => String(vid.video) !== String(videoId)));
+				return (el.videos = el.videos.filter((vid) => String(vid.videoId) !== String(videoId)));
 			}
 			return el;
 		});
@@ -157,7 +157,7 @@ router.route('/:userId/:playlistId/:videoId')
 // console.log(playlist);
 // console.log(playlist.playlists[1]);
 
-        await playlist.playlists.find((play)=>(play._id == playlistId)).find((vid)=>vid.video == videoId).remove();
+        // await playlist.playlists.find((play)=>(play._id == playlistId)).find((vid)=>vid.video == videoId).remove();
 
         playlist = await playlist.save();
 

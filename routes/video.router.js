@@ -5,8 +5,8 @@ const {Video} = require('../models/video.model');
 router.route('/')
 .get(async(req, res)=>{
     try{
-        const Videos = await Video.find({});
-        res.json({success:true, Videos})
+        const videos = await Video.find({});
+        res.json({success:true, videos})
     }catch{
         res.status(500).json({success:false, message:"request can't be fulfilled"});
     }
