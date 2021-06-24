@@ -6,14 +6,10 @@ const {User} = require('../models/signup.model');
 const {Video} = require('../models/video.model');
 
 
-router.param("userId", async(req, res, next, userId)=>{
+const getOrCreatePlaylistOfUser = async(req, res, next) => {
 
     try{
-        const user = await User.findById(userId);
-        if(!user){
-            res.status(400).json({success:false, message:"User not found"});
-        }
-    
+        const userId = req.user._id ;
         let playlist = await Playlist.findById(userId);
 
         if(!playlist){
@@ -28,9 +24,10 @@ router.param("userId", async(req, res, next, userId)=>{
         return res.status(500).json({success:false, error:error.message});
 
     }
-})
+}
 
-router.route('/:userId')
+router.use(getOrCreatePlaylistOfUser)
+router.route('/')
 .get(async(req, res)=>{
 
     try{
@@ -59,7 +56,7 @@ router.route('/:userId')
 })
 
 //adding video to existing playlist
-router.route('/:userId/:playlistId')
+router.route('/:playlistId')
 .post(async(req, res)=>{
     try{
         const {videoId} = req.body;
@@ -104,7 +101,7 @@ router.route('/:userId/:playlistId')
     }
 })
 
-router.route('/:userId/:playlistId/name')
+router.route('/:playlistId/name')
 .post(async(req, res)=>{
     try{
         const {newPlaylistName} = req.body;
@@ -141,7 +138,7 @@ router.route('/:userId/:playlistId/name')
 // })
 
 
-router.route('/:userId/:playlistId/:videoId')
+router.route('/:playlistId/:videoId')
 .delete(async(req, res)=>{
     try{
         let {playlist} = req;

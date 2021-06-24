@@ -1,24 +1,11 @@
+const secret = process.env.SECRET;
 const express = require('express');
 const router = express.Router();
-const {User} = require('../models/signup.model')
+const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+const {User} = require('../models/signup.model');
 
-const logger = async(req, res, next) =>{
-  try{
-    const {email} = req.body;
-    const query = await User.find({email});
 
-    if (!query) { 
-          return res.status(400).json({ success: false, message: "error getting user details"})
-        }
-
-    req.query = query; 
-    next();
-  }catch{
-    res.status(404).json({success:false, message:"user not found"});
-  }
-}
-
-router.use('/',logger);
 router.route('/')
 .get((req,res)=>{
   res.json("login in build");
@@ -26,16 +13,21 @@ router.route('/')
 
 .post(async(req, res)=>{
   try{
-  const {password} = req.body;
-  const {query} = req;
-  // console.log(query)
-  if(password === query[0].password){
-      return res.json({success:true,userId:query[0]._id,name: query[0].name,  message:"user credentials found"}); 
-  }else{
-    return res.status(400).json({ success: false, message: "error getting user details"})
-  }
+    const {email, password} = req.body;
+    const user = await User.findOne({email});
+    if(user){
+      const validPassword = await bcrypt.compare(password, user.password);
+      if(validPassword){
+        const token = jwt.sign({userId: user._id, name: user.name}, secret, {expiresIn: "24h"});
+        res.json({success:true, response:{userId: user._id, name:user.name,  token } })
+      }else{
+        res.status(403).json({success:false, message:"Email or Password is incorrect"})
+    }
+    }else{
+    res.status(403).json({ message: 'Email or password is incorrect!' });
+    }
   }catch(err){
-  res.status(500).json({success:false, message:"cannot retrieve from server", errorMessage: err.message})
+     res.status(500).json({success:false, message:"cannot retrieve from server", errorMessage: err.message})
 }})
 
 

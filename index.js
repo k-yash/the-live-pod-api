@@ -6,6 +6,7 @@ const {initializeDBConnection} = require('./db/db.connect');
 
 const {errorHandler} = require('./handler/errorHandler');
 const {routeHandler} = require('./handler/routeHandler');
+const {authenticate} = require('./handler/authenticate');
 
 const videos = require('./routes/video.router');
 const login = require("./routes/login.router");
@@ -14,6 +15,8 @@ const likedVideos = require('./routes/likedVideos.router');
 const history = require('./routes/history.router');
 const savedVideos = require('./routes/savedVideo.router');
 const playlist = require('./routes/playlist.router');
+const notes = require('./routes/note.router');
+
 
 const cors = require('cors');
 const PORT = process.env.PORT || 3000;
@@ -31,6 +34,10 @@ app.get("/", (req,res)=>{
 app.use('/videos', videos);
 app.use('/login',login);
 app.use('/signup', signup);
+
+
+app.use(authenticate);
+app.use("/notes", notes);
 app.use('/likedvideos', likedVideos);
 app.use('/history', history);
 app.use('/savedvideos', savedVideos);

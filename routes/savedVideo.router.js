@@ -6,13 +6,9 @@ const {User} = require('../models/signup.model');
 const {Video} = require('../models/video.model');
 
 
-router.param("userId", async(req, res, next, userId)=>{
+const getOrCreateSavedVideosOfUser = async(req, res, next, userId)=>{
     try{
-        const user = await User.findById(userId);
-        if(!user){
-            res.status(400).json({success:false, message:"User not found"});
-        }
-
+        const userId = req.user._id ;
         let saveVideos = await SavedVideos.findById(userId);
 
         if(!saveVideos){
@@ -27,9 +23,10 @@ router.param("userId", async(req, res, next, userId)=>{
         return res.status(500).json({success:false, error:error.message});
 
     }
-})
+}
 
-router.route('/:userId')
+router.use(getOrCreateSavedVideosOfUser)
+router.route('/')
 .get(async(req, res)=>{
     try{
         let {saveVideos} = req;
@@ -71,7 +68,7 @@ router.param('videoId', async(req, res, next, videoId)=>{
 })
 
 
-router.route('/:userId/:videoId')
+router.route('/:videoId')
 .delete(async(req, res)=>{
     try{
         let {saveVideos} = req;
