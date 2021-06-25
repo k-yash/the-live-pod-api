@@ -6,7 +6,7 @@ const {User} = require('../models/signup.model');
 const {Video} = require('../models/video.model');
 
 
-const getOrCreateSavedVideosOfUser = async(req, res, next, userId)=>{
+const getOrCreateSavedVideosOfUser = async(req, res, next)=>{
     try{
         const userId = req.user._id ;
         let saveVideos = await SavedVideos.findById(userId);
@@ -26,6 +26,7 @@ const getOrCreateSavedVideosOfUser = async(req, res, next, userId)=>{
 }
 
 router.use(getOrCreateSavedVideosOfUser)
+
 router.route('/')
 .get(async(req, res)=>{
     try{
