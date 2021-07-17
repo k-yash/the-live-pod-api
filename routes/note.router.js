@@ -9,10 +9,9 @@ const { extend } = require('lodash');
 router.route('/:videoId')
 .get(async(req, res)=>{
     try{
-        // const {user} = req;
         const userId = req.user._id ;
         const {videoId} = req.params;
-        const notes = await Note.findOne({videoId, userId});
+        const notes = await Note.find({videoId, userId});
         res.json({success:true, response: notes});
 
 
