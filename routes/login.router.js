@@ -21,10 +21,10 @@ router.route('/')
         const token = jwt.sign({userId: user._id, name: user.name}, secret, {expiresIn: "24h"});
         res.json({success:true, response:{userId: user._id, name:user.name,  token } })
       }else{
-        res.status(403).json({success:false, message:"Email or Password is incorrect"})
+        res.status(401).json({success:false, message:"Email or Password is incorrect"})
     }
     }else{
-    res.status(403).json({ message: 'Email or password is incorrect!' });
+    res.status(401).json({ message: 'Email or password is incorrect!' });
     }
   }catch(err){
      res.status(500).json({success:false, message:"cannot retrieve from server", errorMessage: err.message})
